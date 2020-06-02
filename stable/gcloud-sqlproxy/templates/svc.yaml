@@ -3,10 +3,7 @@ kind: Service
 metadata:
   name: {{ template "gcloud-sqlproxy.fullname" . }}
   labels:
-    app: {{ template "gcloud-sqlproxy.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "gcloud-sqlproxy.labels" . | nindent 4 }}
 spec:
   ports:
   {{- range .Values.cloudsql.instances }}
@@ -16,4 +13,4 @@ spec:
     targetPort: {{ .instanceShortName | default (.instance | trunc 15) }}
   {{- end }}
   selector:
-    app: {{ template "gcloud-sqlproxy.fullname" . }}
+    {{- include "gcloud-sqlproxy.selectorLabels" . | nindent 4 }}

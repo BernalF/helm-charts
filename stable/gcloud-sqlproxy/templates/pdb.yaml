@@ -3,14 +3,11 @@ apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
   labels:
-    app: {{ template "gcloud-sqlproxy.name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
+    {{- include "gcloud-sqlproxy.labels" . | nindent 4 }}
   name: {{ template "gcloud-sqlproxy.fullname" . }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "gcloud-sqlproxy.name" . }}
+      {{- include "gcloud-sqlproxy.selectorLabels" . | nindent 4 }}
 {{ .Values.podDisruptionBudget | indent 2 }}
 {{- end -}}

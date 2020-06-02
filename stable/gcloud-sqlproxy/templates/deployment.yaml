@@ -1,19 +1,19 @@
 {{- if ne (index .Values.cloudsql.instances 0).instance "instance" }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "gcloud-sqlproxy.fullname" . }}
+  name: {{ include "gcloud-sqlproxy.fullname" . }}
   labels:
-    app: {{ template "gcloud-sqlproxy.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "gcloud-sqlproxy.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicasCount }}
+  selector:
+    matchLabels:
+      {{- include "gcloud-sqlproxy.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ template "gcloud-sqlproxy.fullname" . }}
+        {{- include "gcloud-sqlproxy.selectorLabels" . | nindent 8 }}
     spec:
       {{- if .Values.rbac.create }}
       serviceAccountName: {{ template "gcloud-sqlproxy.fullname" . }}

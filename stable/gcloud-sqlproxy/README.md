@@ -1,4 +1,4 @@
-# GCP SQL Proxy - DEPRECATED
+# GCP SQL Proxy
 
 **This chart is deprecated! You can find the new chart in:**
 - **Source:** https://github.com/rimusz/charts
